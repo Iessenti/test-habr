@@ -1,26 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react'
+import {  
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
+
+import {Profile} from './pages/Profile'
+import { LoginPage } from './pages/LoginPage'
+import {Navbar} from './components/Navbar'
 
 function App() {
+
+  const [isAuthenticated, setIsAuthenticated] = useState<Boolean>(false)
+
+  useEffect( () => {
+
+    const authState: any = localStorage.getItem('authdata')
+
+    setIsAuthenticated(authState)
+
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Navbar/>
+
+      <Switch>
+
+            <Route
+              path='/' exact
+            >
+              <div>mainpage</div>
+            </Route>
+
+            <Route
+              path='/news' exact
+            >
+              <div>news</div>
+            </Route>
+
+            <Route
+              path='/profile' exact
+            >
+              <Profile />
+            </Route>
+
+            <Route 
+              path="/login" exact
+            >
+              <LoginPage/>
+            </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
